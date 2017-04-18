@@ -13,12 +13,17 @@ namespace NobelLaureates.Service
     {
         public static class Services
         {
-            public static EtherService<ICsvFileLoader> CsvFileLoaderService = EtherService.Create<ICsvFileLoader>(nameof(CsvFileLoaderService));
+            public static readonly EtherService<ICsvFileLoader> CsvFileLoaderService = EtherService.Create<ICsvFileLoader>(nameof(CsvFileLoaderService));
         }
 
         public static class Actions
         {
-            public static EtherAction<None, NobelPrize[]> NobelPrizeData = EtherAction.Create<None, NobelPrize[]>(nameof(NobelPrizeData));
+            public static readonly EtherAction<None, NobelPrize[]> NobelPrizeData = EtherAction.Create<None, NobelPrize[]>(nameof(NobelPrizeData));
+        }
+
+        public static class Messages
+        {
+            public static readonly string Search = "Message.Search";
         }
 
         private readonly IMapper _mapper;

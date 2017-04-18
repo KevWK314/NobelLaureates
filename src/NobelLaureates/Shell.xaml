@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NobelLaureates"
-        xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid"
+        xmlns:views="clr-namespace:NobelLaureates.View"
+        
         mc:Ignorable="d"
         WindowState="Maximized"
         Title="Nobel Laureates" 
@@ -12,17 +13,15 @@
         DataContext="{Binding Shell, Source={StaticResource bootstrapper}}">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="200" />
+            <RowDefinition Height="40" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
+        <views:SearchPanelView Grid.Row="0" 
+                               DataContext="{Binding SearchPanelViewModel}" />
 
-        <xcdg:DataGridControl Grid.Row="1" 
-                              DataContext="{Binding GridViewModel}"
-                              ItemsSource="{Binding Rows.Value}">
-            
-        </xcdg:DataGridControl>
-        
-        
+        <views:DataPanelView Grid.Row="1"
+                             DataContext="{Binding DataPanelViewModel}" />
+
     </Grid>
 </Window>

@@ -5,14 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NobelLaureates.ViewModel.Grid
+namespace NobelLaureates.ViewModel.DataPanel
 {
-    public class GridViewModelControllers : HydraController
+    public class DataPanelControllers : HydraController
     {
         private readonly List<HydraController> _controllers = new List<HydraController>();
 
-        public GridViewModelControllers(
-            LoadGridData loadGridData)
+        public DataPanelControllers(
+            LoadDataController loadGridData)
         {
             _controllers.Add(loadGridData);
         }

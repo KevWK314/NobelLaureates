@@ -74,6 +74,7 @@
     <Compile Include="HydraViewModelMetaData.cs" />
     <Compile Include="HydraViewModel.cs" />
     <Compile Include="HydraViewModelProperty.cs" />
+    <Compile Include="ValueChangedEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

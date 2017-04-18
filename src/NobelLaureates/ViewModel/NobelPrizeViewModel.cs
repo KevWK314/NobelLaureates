@@ -1,12 +1,12 @@
 ﻿using NobelLaureates.HydraVM;
 using System;
 
-namespace NobelLaureates.ViewModel.Grid
+namespace NobelLaureates.ViewModel
 {
-    public class GridRowViewModel : HydraViewModel
+    public class NobelPrizeViewModel : HydraViewModel
     {
-        public GridRowViewModel()
-            : base(typeof(GridRowViewModel).ToString())
+        public NobelPrizeViewModel()
+            : base(typeof(NobelPrizeViewModel).ToString())
         {
             Year = CreateProperty<int>("Year");
             Category = CreateProperty<string>("Category");
@@ -63,5 +63,10 @@ namespace NobelLaureates.ViewModel.Grid
         public HydraViewModelProperty<string> DeathCity { get; private set; }
 
         public HydraViewModelProperty<string> DeathCountry { get; private set; }
+
+        public override string ToString()
+        {
+            return $"{Year} - {Category} - {FullName}";
+        }
     }
 }

@@ -1,20 +1,22 @@
 ﻿using NobelLaureates.Ethereal;
+using NobelLaureates.Ethereal.Messaging;
 using NobelLaureates.HydraVM;
 using NobelLaureates.Model;
 using NobelLaureates.Service;
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 
-namespace NobelLaureates.ViewModel.Grid
+namespace NobelLaureates.ViewModel.DataPanel
 {
-    public class LoadGridData : HydraController
+    public class LoadDataController : HydraController
     {
         private readonly IEther _ether;
-        private readonly GridViewModel _viewModel;
+        private readonly DataPanelViewModel _viewModel;
+        private readonly List<NobelPrizeViewModel> _data = new List<NobelPrizeViewModel>();
 
-        public LoadGridData(IEther ether, GridViewModel viewModel)
+        public LoadDataController(IEther ether, DataPanelViewModel viewModel)
         {
             _ether = ether;
             _viewModel = viewModel;
@@ -24,17 +26,29 @@ namespace NobelLaureates.ViewModel.Grid
         {
             var data = await _ether.ExecuteAsync(NobelEther.Actions.NobelPrizeData, None.Default);
             Load(data);
+
+            AddDisposable(_ether.Subscribe<string>(NobelEther.Messages.Search, s => Load(s)));
         }
 
         private void Load(NobelPrize[] data)
         {
-            var collection = _viewModel.Rows.Value;
-            data.ToList().ForEach(x => collection.Add(CreateRow(x)));
+            _data.Clear();
+            _data.AddRange(data.Select(CreateRow));
+
+            Load(string.Empty);
         }
 
-        private GridRowViewModel CreateRow(NobelPrize item)
+        private void Load(string searchString)
         {
-            var row = new GridRowViewModel();
+            // TBD. Search
+
+            var collection = _viewModel.Rows.Value;
+            _data.ToList().ForEach(x => collection.Add(x));
+        }
+
+        private NobelPrizeViewModel CreateRow(NobelPrize item)
+        {
+            var row = new NobelPrizeViewModel();
             row.Year.Reset(item.Year);
             row.Category.Reset(item.Category);
             row.Prize.Reset(item.Prize);

@@ -9,8 +9,9 @@ using AutoMapper;
 using NobelLaureates.Model;
 using NobelLaureates.ViewModel;
 using NobelLaureates.HydraVM;
-using NobelLaureates.ViewModel.Grid;
+using NobelLaureates.ViewModel.DataPanel;
 using NobelLaureates.Core.Service.File;
+using NobelLaureates.ViewModel.SearchPanel;
 
 namespace NobelLaureates
 {
@@ -47,9 +48,12 @@ namespace NobelLaureates
 
             Bind<ShellViewModel>().ToSelf().InSingletonScope();
 
-            Bind<GridViewModel>().ToSelf().InSingletonScope();
-            Bind<GridViewModelControllers>().ToSelf().InSingletonScope();
+            Bind<DataPanelViewModel>().ToSelf().InSingletonScope();
+            Bind<DataPanelControllers>().ToSelf().InSingletonScope();
 
+
+            Bind<SearchPanelViewModel>().ToSelf().InSingletonScope();
+            Bind<SearchPanelControllers>().ToSelf().InSingletonScope();
         }
 
         public void Start()
@@ -63,7 +67,8 @@ namespace NobelLaureates
             _shell = _kernel.Get<ShellViewModel>();
 
             // Start Controllers
-            _kernel.Get<GridViewModelControllers>().Start();
+            _kernel.Get<DataPanelControllers>().Start();
+            _kernel.Get<SearchPanelControllers>().Start();
         }
     }
 }

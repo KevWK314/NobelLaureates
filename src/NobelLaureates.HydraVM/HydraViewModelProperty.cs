@@ -12,6 +12,8 @@ namespace NobelLaureates.HydraVM
 
         private readonly Dictionary<string, object> _metaData = new Dictionary<string, object>();
 
+        public event EventHandler<ValueChangedEventArgs<T>> ValueChanged;
+
         internal HydraViewModelProperty(string name)
             : this(name, () => default(T))
         {
@@ -45,9 +47,11 @@ namespace NobelLaureates.HydraVM
             get { return _currentValue; }
             set
             {
+                var oldValue = _currentValue;
                 if (SetField(ref _currentValue, value))
                 {
-                    _hasChanges = !EqualityComparer<T>.Default.Equals(_originalValue, value);
+                    HasChanges = !EqualityComparer<T>.Default.Equals(_originalValue, value);
+                    OnValueChanged(value);
                 }
             }
         }
@@ -69,6 +73,8 @@ namespace NobelLaureates.HydraVM
 
             SetField(ref _currentValue, _originalValue, this.PropertyName(x => x.Value));
             SetField(ref _hasChanges, false, this.PropertyName(x => x.HasChanges));
+
+            OnValueChanged(_originalValue);
         }
 
         public ViewModelMetaData<TMeta> AddMetaData<TMeta>(string name)
@@ -103,12 +109,12 @@ namespace NobelLaureates.HydraVM
         public override bool Equals(object obj)
         {
             var other = obj as HydraViewModelProperty<T>;
-            if(other == null)
+            if (other == null)
             {
                 return false;
             }
 
-            if(ReferenceEquals(this, other))
+            if (ReferenceEquals(this, other))
             {
                 return true;
             }
@@ -119,6 +125,12 @@ namespace NobelLaureates.HydraVM
         public override int GetHashCode()
         {
             return Value == null ? 0 : Value.GetHashCode();
+        }
+
+        private void OnValueChanged(T newValue)
+        {
+            var handler = ValueChanged;
+            handler?.Invoke(this, new ValueChangedEventArgs<T>(newValue));
         }
     }
 }

@@ -2,19 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using NobelLaureates.HydraVM;
-using NobelLaureates.ViewModel.Grid;
+using NobelLaureates.ViewModel.DataPanel;
+using NobelLaureates.ViewModel.SearchPanel;
 
 namespace NobelLaureates.ViewModel
 {
     public class ShellViewModel : HydraViewModelBag
     {
-        public ShellViewModel(GridViewModel gridViewModel)
+        public ShellViewModel(DataPanelViewModel dataPanelViewModel, SearchPanelViewModel searchPanelViewModel)
         {
-            GridViewModel = gridViewModel;
+            DataPanelViewModel = dataPanelViewModel;
+            SearchPanelViewModel = searchPanelViewModel;
 
-            AddViewModel(GridViewModel);
+            AddViewModel(DataPanelViewModel);
+            AddViewModel(SearchPanelViewModel);
         }
 
-        public GridViewModel GridViewModel { get; private set; }
+        public DataPanelViewModel DataPanelViewModel { get; private set; }
+
+        public SearchPanelViewModel SearchPanelViewModel { get; private set; }
     }
 }

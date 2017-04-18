@@ -83,30 +83,6 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="Xceed.Wpf.AvalonDock, Version=3.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.3.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=3.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.3.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=3.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.3.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=3.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.3.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Xceed.Wpf.DataGrid, Version=3.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.3.0\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Xceed.Wpf.Toolkit, Version=3.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.3.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -117,17 +93,24 @@
     <Compile Include="Service\NobelEther.cs" />
     <Compile Include="Core\Service\File\CsvFileLoader.cs" />
     <Compile Include="Core\Service\File\ICsvFileLoader.cs" />
-    <Compile Include="Model\Laureate.cs" />
-    <Compile Include="Model\LaureateEntry.cs" />
     <Compile Include="Service\File\NobelPrizeEntry.cs" />
     <Compile Include="Model\NobelPrize.cs" />
     <Compile Include="Service\File\NobelFileDataMapperProfile.cs" />
     <Compile Include="Service\File\NobelFileDataRegistrations.cs" />
-    <Compile Include="ViewModel\Grid\GridRowViewModel.cs" />
-    <Compile Include="ViewModel\Grid\GridViewModel.cs" />
-    <Compile Include="ViewModel\Grid\GridViewModelControllers.cs" />
-    <Compile Include="ViewModel\Grid\LoadGridData.cs" />
+    <Compile Include="ViewModel\NobelPrizeViewModel.cs" />
+    <Compile Include="ViewModel\DataPanel\DataPanelViewModel.cs" />
+    <Compile Include="ViewModel\DataPanel\DataPanelControllers.cs" />
+    <Compile Include="ViewModel\DataPanel\LoadDataController.cs" />
+    <Compile Include="ViewModel\SearchPanel\SearchController.cs" />
+    <Compile Include="ViewModel\SearchPanel\SearchPanelControllers.cs" />
+    <Compile Include="ViewModel\SearchPanel\SearchPanelViewModel.cs" />
     <Compile Include="ViewModel\ShellViewModel.cs" />
+    <Compile Include="View\DataPanelView.xaml.cs">
+      <DependentUpon>DataPanelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SearchPanelView.xaml.cs">
+      <DependentUpon>SearchPanelView.xaml</DependentUpon>
+    </Compile>
     <Page Include="Shell.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -140,6 +123,14 @@
       <DependentUpon>Shell.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\DataPanelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SearchPanelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

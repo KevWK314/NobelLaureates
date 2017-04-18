@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DisposableAction.cs" />
     <Compile Include="Ether.cs" />
     <Compile Include="EtherAction.cs" />
     <Compile Include="EtherActionContext.cs" />
@@ -51,9 +52,13 @@
     <Compile Include="IEtherRegistrations.cs" />
     <Compile Include="Listeners\EtherActionListener.cs" />
     <Compile Include="Listeners\EtherActionListenerBuilder.cs" />
+    <Compile Include="Messaging\MessagingExtensions.cs" />
+    <Compile Include="Messaging\MessengerService.cs" />
+    <Compile Include="Messaging\MessengerSubscription.cs" />
     <Compile Include="None.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
