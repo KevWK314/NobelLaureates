@@ -6,6 +6,7 @@ namespace NobelLaureates.Ethereal
     public sealed class EtherAction<TRequest, TResponse>
     {
         private List<IEtherActionListener<TRequest, TResponse>> _listeners = new List<IEtherActionListener<TRequest, TResponse>>();
+        private Dictionary<IEther, Func<TRequest, TResponse>> _registeredActions = new Dictionary<IEther, Func<TRequest, TResponse>>();
 
         internal EtherAction(string name)
         {
@@ -14,14 +15,9 @@ namespace NobelLaureates.Ethereal
 
         public string Name { get; private set; }
 
-        public bool IsRegistered { get; private set; }
-
-        internal Func<TRequest, TResponse> Action { get; private set; }
-
-        internal void Register(Func<TRequest, TResponse> action)
+        internal void Register(IEther ether, Func<TRequest, TResponse> action)
         {
-            IsRegistered = true;
-            Action = action;
+            _registeredActions[ether] = action;
         }
 
         public void RegisterListener(IEtherActionListener<TRequest, TResponse> listener)
@@ -29,9 +25,25 @@ namespace NobelLaureates.Ethereal
             _listeners.Add(listener);
         }
 
-        internal TResponse Execute(TRequest request)
+        internal bool IsRegistered(IEther ether)
         {
-            if (!IsRegistered)
+            return _registeredActions.ContainsKey(ether);
+        }
+
+        internal Func<TRequest, TResponse> GetAction(IEther ether)
+        {
+            Func<TRequest, TResponse> action;
+            if (_registeredActions.TryGetValue(ether, out action))
+            {
+                return action;
+            }
+            return null;
+        }
+
+        internal TResponse Execute(IEther ether, TRequest request)
+        {
+            Func<TRequest, TResponse> action;
+            if (!_registeredActions.TryGetValue(ether, out action))
             {
                 throw new InvalidOperationException("Action is not registered");
             }
@@ -41,7 +53,7 @@ namespace NobelLaureates.Ethereal
             TResponse response;
             try
             {
-                response = Action(request);
+                response = action(request);
                 _listeners.ForEach(l => l.OnResponding(this, response));
             }
             catch(Exception ex)

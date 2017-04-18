@@ -16,8 +16,8 @@ namespace NobelLaureates.Ethereal
 
         public EtherActionContext<TRequest, TResponse> Apply(Func<TResponse, TResponse> apply)
         {
-            var originalAction = _etherAction.Action;
-            _etherAction.Register(r => apply(originalAction(r)));
+            var originalAction = _etherAction.GetAction(_ether);
+            _etherAction.Register(_ether, r => apply(originalAction(r)));
 
             return this;
         }

@@ -26,7 +26,7 @@ namespace NobelLaureates.Ethereal
                 throw new ArgumentNullException(nameof(action));
             }
 
-            return _ether.RegisterAction(etherAction, r => action(_etherService.Service, r));
+            return _ether.RegisterAction(etherAction, r => action(_etherService.GetService(_ether), r));
         }
 
         public IEther Ether()

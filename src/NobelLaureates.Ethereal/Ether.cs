@@ -11,7 +11,7 @@ namespace NobelLaureates.Ethereal
 
         public EtherServiceContext<TService> RegisterService<TService>(EtherService<TService> etherService, TService service)
         {
-            etherService.Register(service);
+            etherService.Register(this, service);
             _services[etherService.Name] = etherService;
 
             return new EtherServiceContext<TService>(this, etherService);
@@ -21,7 +21,7 @@ namespace NobelLaureates.Ethereal
             EtherAction<TRequest, TResponse> etherAction,
             Func<TRequest, TResponse> action)
         {
-            etherAction.Register(action);
+            etherAction.Register(this, action);
             _actions[etherAction.Name] = etherAction;
 
             return new EtherActionContext<TRequest, TResponse>(this, etherAction);
@@ -36,7 +36,7 @@ namespace NobelLaureates.Ethereal
             TResponse response = default(TResponse);
             try
             {
-                response = action.Execute(request);
+                response = action.Execute(this, request);
                 _listeners.ForEach(l => l.OnResponding(action, response));
             }
             catch (Exception ex)

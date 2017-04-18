@@ -43,7 +43,12 @@ namespace NobelLaureates.ViewModel.DataPanel
             // TBD. Search
 
             var collection = _viewModel.Rows.Value;
-            _data.ToList().ForEach(x => collection.Add(x));
+            collection.Clear();
+
+            var filtered = string.IsNullOrEmpty(searchString) ?
+                _data :
+                _data.Where(x => x.Category.Value.IndexOf(searchString, StringComparison.InvariantCultureIgnoreCase) > -1).ToList();
+            filtered.ForEach(x => collection.Add(x));
         }
 
         private NobelPrizeViewModel CreateRow(NobelPrize item)

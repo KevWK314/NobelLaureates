@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Concurrent;
 
 namespace NobelLaureates.Ethereal
 {
     public sealed class EtherService<TService>
     {
+        private ConcurrentDictionary<IEther, TService> _services = new ConcurrentDictionary<IEther, TService>();
+
         internal EtherService(string name)
         {
             Name = name;
@@ -11,17 +14,24 @@ namespace NobelLaureates.Ethereal
 
         public string Name { get; private set; }
 
-        public bool IsRegistered { get; private set; }
+        internal TService GetService(IEther ether)
+        {
+            TService service;
+            if(_services.TryGetValue(ether, out service))
+            {
+                return service;
+            }
+            return default(TService);
+        }
 
-        internal TService Service { get; private set; }
-
-        internal void Register(TService service)
+        internal void Register(IEther ether, TService service)
         {
             if (service == null)
             {
                 throw new ArgumentNullException(nameof(service));
             }
-            Service = service;
+
+            _services[ether] = service;
         }
     }
 
