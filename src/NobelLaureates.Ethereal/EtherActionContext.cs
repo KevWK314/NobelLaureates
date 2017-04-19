@@ -14,25 +14,29 @@ namespace NobelLaureates.Ethereal
             _etherAction = etherAction;
         }
 
-        public EtherActionContext<TRequest, TResponse> Apply(Func<TResponse, TResponse> apply)
+        public EtherActionContext<TRequest, TResponse> Apply(Func<TResponse, TResponse> execute)
         {
-            var originalAction = _etherAction.GetAction(_ether);
-            _etherAction.Register(_ether, r => apply(originalAction(r)));
+            if (execute == null) throw new ArgumentNullException(nameof(execute));
+
+            var originalExecute = _etherAction.GetExecute(_ether);
+            _etherAction.Register(_ether, r => execute(originalExecute(r)));
 
             return this;
         }
 
         public EtherActionContext<TRequest, TResponse> RegisterListener(IEtherActionListener<TRequest, TResponse> listener)
         {
-            _etherAction.RegisterListener(listener);
+            _etherAction.RegisterListener(_ether, listener);
 
             return this;
         }
 
         public EtherActionContext<TRequest, TResponse> AddListener(Action<EtherActionListenerBuilder<TRequest, TResponse>> buildListener)
         {
+            if (buildListener == null) throw new ArgumentNullException(nameof(buildListener));
+
             var builder = new EtherActionListenerBuilder<TRequest, TResponse>(_etherAction);
-            buildListener?.Invoke(builder);
+            buildListener(builder);
 
             return this;
         }

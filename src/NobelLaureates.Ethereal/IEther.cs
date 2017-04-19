@@ -8,10 +8,10 @@ namespace NobelLaureates.Ethereal
 
         EtherActionContext<TRequest, TResponse> RegisterAction<TRequest, TResponse>(
             EtherAction<TRequest, TResponse> etherAction,
-            Func<TRequest, TResponse> action);
+            Func<TRequest, TResponse> execute);
 
         TResponse Execute<TRequest, TResponse>(
-            EtherAction<TRequest, TResponse> action,
+            EtherAction<TRequest, TResponse> etherAction,
             TRequest request);
 
         void RegisterListener(IEtherActionListener listener);

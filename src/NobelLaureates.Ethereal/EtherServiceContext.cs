@@ -15,18 +15,12 @@ namespace NobelLaureates.Ethereal
 
         public EtherActionContext<TRequest, TResponse> RegisterAction<TRequest, TResponse>(
             EtherAction<TRequest, TResponse> etherAction,
-            Func<TService, TRequest, TResponse> action)
+            Func<TService, TRequest, TResponse> execute)
         {
-            if (etherAction == null)
-            {
-                throw new ArgumentNullException(nameof(etherAction));
-            }
-            if (action == null)
-            {
-                throw new ArgumentNullException(nameof(action));
-            }
+            if (etherAction == null) throw new ArgumentNullException(nameof(etherAction));
+            if (execute == null) throw new ArgumentNullException(nameof(execute));
 
-            return _ether.RegisterAction(etherAction, r => action(_etherService.GetService(_ether), r));
+            return _ether.RegisterAction(etherAction, r => execute(_etherService.GetService(_ether), r));
         }
 
         public IEther Ether()

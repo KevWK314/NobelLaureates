@@ -9,6 +9,8 @@ namespace NobelLaureates.Ethereal
 
         internal EtherService(string name)
         {
+            if (string.IsNullOrEmpty(name)) throw new ArgumentException("Invalid name", nameof(name));
+
             Name = name;
         }
 
@@ -16,8 +18,10 @@ namespace NobelLaureates.Ethereal
 
         internal TService GetService(IEther ether)
         {
+            if (ether == null) throw new ArgumentNullException(nameof(ether));
+
             TService service;
-            if(_services.TryGetValue(ether, out service))
+            if (_services.TryGetValue(ether, out service))
             {
                 return service;
             }
@@ -26,10 +30,8 @@ namespace NobelLaureates.Ethereal
 
         internal void Register(IEther ether, TService service)
         {
-            if (service == null)
-            {
-                throw new ArgumentNullException(nameof(service));
-            }
+            if (ether == null) throw new ArgumentNullException(nameof(ether));
+            if (service == null) throw new ArgumentNullException(nameof(service));
 
             _services[ether] = service;
         }

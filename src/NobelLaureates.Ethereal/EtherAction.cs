@@ -1,66 +1,94 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NobelLaureates.Ethereal
 {
     public sealed class EtherAction<TRequest, TResponse>
     {
-        private List<IEtherActionListener<TRequest, TResponse>> _listeners = new List<IEtherActionListener<TRequest, TResponse>>();
-        private Dictionary<IEther, Func<TRequest, TResponse>> _registeredActions = new Dictionary<IEther, Func<TRequest, TResponse>>();
+        private ConcurrentDictionary<IEther, List<IEtherActionListener<TRequest, TResponse>>> _listeners =
+            new ConcurrentDictionary<IEther, List<IEtherActionListener<TRequest, TResponse>>>();
+        private ConcurrentDictionary<IEther, Func<TRequest, TResponse>> _registeredActions =
+            new ConcurrentDictionary<IEther, Func<TRequest, TResponse>>();
 
         internal EtherAction(string name)
         {
+            if (string.IsNullOrEmpty(name)) throw new ArgumentException("Invalid name", nameof(name));
+
             Name = name;
         }
 
         public string Name { get; private set; }
 
-        internal void Register(IEther ether, Func<TRequest, TResponse> action)
+        internal void Register(IEther ether, Func<TRequest, TResponse> execute)
         {
-            _registeredActions[ether] = action;
+            if (ether == null) throw new ArgumentNullException(nameof(ether));
+            if (execute == null) throw new ArgumentNullException(nameof(execute));
+
+            _registeredActions[ether] = execute;
         }
 
-        public void RegisterListener(IEtherActionListener<TRequest, TResponse> listener)
+        public void RegisterListener(IEther ether, IEtherActionListener<TRequest, TResponse> listener)
         {
-            _listeners.Add(listener);
+            if (listener == null) throw new ArgumentNullException(nameof(listener));
+
+            _listeners.AddOrUpdate(ether,
+                new List<IEtherActionListener<TRequest, TResponse>>(new[] { listener }),
+                (k, v) =>
+                {
+                    v.Add(listener);
+                    return v;
+                });
         }
 
         internal bool IsRegistered(IEther ether)
         {
+            if (ether == null) throw new ArgumentNullException(nameof(ether));
+
             return _registeredActions.ContainsKey(ether);
         }
 
-        internal Func<TRequest, TResponse> GetAction(IEther ether)
+        internal Func<TRequest, TResponse> GetExecute(IEther ether)
         {
-            Func<TRequest, TResponse> action;
-            if (_registeredActions.TryGetValue(ether, out action))
+            if (ether == null) throw new ArgumentNullException(nameof(ether));
+
+            Func<TRequest, TResponse> execute;
+            if (_registeredActions.TryGetValue(ether, out execute))
             {
-                return action;
+                return execute;
             }
             return null;
         }
 
         internal TResponse Execute(IEther ether, TRequest request)
         {
-            Func<TRequest, TResponse> action;
-            if (!_registeredActions.TryGetValue(ether, out action))
+            if (ether == null) throw new ArgumentNullException(nameof(ether));
+
+            Func<TRequest, TResponse> execute;
+            if (!_registeredActions.TryGetValue(ether, out execute))
             {
                 throw new InvalidOperationException("Action is not registered");
             }
 
-            _listeners.ForEach(l => l.OnExecuting(this, request));
+            List<IEtherActionListener<TRequest, TResponse>> actionListeners;
+            var listeners = _listeners.TryGetValue(ether, out actionListeners) ? actionListeners.ToList() : null;
+
+            listeners?.ForEach(l => l.OnExecuting(this, request));
 
             TResponse response;
             try
             {
-                response = action(request);
-                _listeners.ForEach(l => l.OnResponding(this, response));
+                response = execute(request);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                _listeners.ForEach(l => l.OnError(this, ex));
+                listeners?.ForEach(l => l.OnError(this, ex));
                 throw;
             }
+
+            listeners?.ForEach(l => l.OnResponding(this, response));
+
             return response;
         }
     }

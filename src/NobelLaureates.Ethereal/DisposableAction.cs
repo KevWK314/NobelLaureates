@@ -9,6 +9,7 @@ namespace NobelLaureates.Ethereal
 
         public DisposableAction(Action disposableAction)
         {
+            if (disposableAction == null) throw new ArgumentNullException(nameof(disposableAction));
             _disposableAction = disposableAction;
         }
 
@@ -17,7 +18,7 @@ namespace NobelLaureates.Ethereal
             if (!_isDisposed)
             {
                 _isDisposed = true;
-                _disposableAction?.Invoke();
+                _disposableAction();
             }
         }
     }

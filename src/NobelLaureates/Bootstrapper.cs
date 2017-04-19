@@ -1,12 +1,10 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Ninject.Modules;
 using Ninject;
 using NobelLaureates.Service;
 using NobelLaureates.Service.File;
 using NobelLaureates.Ethereal;
 using AutoMapper;
-using NobelLaureates.Model;
 using NobelLaureates.ViewModel;
 using NobelLaureates.HydraVM;
 using NobelLaureates.ViewModel.DataPanel;
@@ -50,7 +48,6 @@ namespace NobelLaureates
 
             Bind<DataPanelViewModel>().ToSelf().InSingletonScope();
             Bind<DataPanelControllers>().ToSelf().InSingletonScope();
-
 
             Bind<SearchPanelViewModel>().ToSelf().InSingletonScope();
             Bind<SearchPanelControllers>().ToSelf().InSingletonScope();

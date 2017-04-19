@@ -5,7 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NobelLaureates"
         xmlns:views="clr-namespace:NobelLaureates.View"
-        
         mc:Ignorable="d"
         WindowState="Maximized"
         Title="Nobel Laureates" 

@@ -6,8 +6,9 @@
              xmlns:local="clr-namespace:NobelLaureates.View"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    
-    <ItemsControl ItemsSource="{Binding Rows.Value}">
-    </ItemsControl>
-    
+    <ScrollViewer>
+        <ItemsControl ItemsSource="{Binding Rows.Value}" />
+
+    </ScrollViewer>
+
 </UserControl>
