@@ -21,11 +21,8 @@ namespace NobelLaureates.ViewModel.SearchPanel
 
         public override void Start()
         {
-            AddDisposable(Observable.FromEventPattern<ValueChangedEventArgs<string>>(
-                handler => _viewModel.SearchText.ValueChanged += handler,
-                handler => _viewModel.SearchText.ValueChanged -= handler)
+            AddDisposable(_viewModel.SearchText.ValueStream()
                     .Throttle(TimeSpan.FromSeconds(0.5))
-                    .Select(x => x.EventArgs.NewValue)
                     .DistinctUntilChanged()
                     .ObserveOn(DispatcherScheduler.Current.Dispatcher)
                     .Subscribe(Search));

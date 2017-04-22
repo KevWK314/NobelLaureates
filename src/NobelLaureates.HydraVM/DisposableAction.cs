@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace NobelLaureates.Ethereal
+namespace NobelLaureates.HydraVM
 {
     internal class DisposableAction : IDisposable
     {
