@@ -2,16 +2,16 @@
 
 namespace NobelLaureates.HydraVM
 {
-    public class ViewModelMetaData<T> : PropertyChangedBase
+    public class HydraViewModelMetaData<T> : PropertyChangedBase
     {
         private T _data;
 
-        internal ViewModelMetaData(string name)
+        internal HydraViewModelMetaData(string name)
         {
             Name = name;
         }
 
-        internal ViewModelMetaData(string name, T data)
+        internal HydraViewModelMetaData(string name, T data)
         {
             Name = name;
             Data = data;

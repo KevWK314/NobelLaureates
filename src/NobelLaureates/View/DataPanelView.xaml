@@ -6,9 +6,33 @@
              xmlns:local="clr-namespace:NobelLaureates.View"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <ScrollViewer>
-        <ItemsControl ItemsSource="{Binding Rows.Value}" />
 
-    </ScrollViewer>
+
+    <DataGrid ItemsSource="{Binding Rows.Value}"
+              GridLinesVisibility="Horizontal"
+              AutoGenerateColumns="False"
+              MaxColumnWidth="250"
+              HorizontalGridLinesBrush="LightGray">
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="Year" Binding="{Binding Year}" />
+            <DataGridTextColumn Header="Category" Binding="{Binding Category}" />
+            <DataGridTextColumn Header="FullName" Binding="{Binding FullName}" />
+            <DataGridTextColumn Header="LaureateType" Binding="{Binding LaureateType}" />
+            <DataGridTextColumn Header="LaureateId" Binding="{Binding LaureateId}" />
+            <DataGridTextColumn Header="Gender" Binding="{Binding Gender}"  />
+            <DataGridTextColumn Header="Prize" Binding="{Binding Prize}" />
+            <DataGridTextColumn Header="PrizeShare" Binding="{Binding PrizeShare}" />
+            <DataGridTextColumn Header="Motivation" Binding="{Binding Motivation}" />
+            <DataGridTextColumn Header="BirthDate" Binding="{Binding BirthDate}" />
+            <DataGridTextColumn Header="BirthCity" Binding="{Binding BirthCity}" />
+            <DataGridTextColumn Header="BirthCountry" Binding="{Binding BirthCountry}" />
+            <DataGridTextColumn Header="OrganisationName" Binding="{Binding OrganisationName}" />
+            <DataGridTextColumn Header="OrganisationCity" Binding="{Binding OrganisationCity}" />
+            <DataGridTextColumn Header="OrganisationCountry" Binding="{Binding OrganisationCountry}" />
+            <DataGridTextColumn Header="DeathDate" Binding="{Binding DeathDate}" />
+            <DataGridTextColumn Header="DeathCity" Binding="{Binding DeathCity}" />
+            <DataGridTextColumn Header="DeathCountry" Binding="{Binding DeathCountry}" />
+        </DataGrid.Columns>
+    </DataGrid>
 
 </UserControl>

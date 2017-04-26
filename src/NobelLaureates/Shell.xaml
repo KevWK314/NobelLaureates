@@ -12,7 +12,7 @@
         DataContext="{Binding RootContainer, Source={StaticResource bootstrapper}}">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="40" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 

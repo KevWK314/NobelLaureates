@@ -53,6 +53,15 @@ namespace NobelLaureates.HydraVM
             }
         }
 
+        public object this[string metaDataName]
+        {
+            get
+            {
+                object metaData;
+                return _metaData.TryGetValue(metaDataName, out metaData) ? metaData : null;
+            }
+        }
+
         public void Reset()
         {
             Reset(_valueGetter);
@@ -72,14 +81,14 @@ namespace NobelLaureates.HydraVM
             SetField(ref _hasChanges, false, this.PropertyName(x => x.HasChanges));
         }
 
-        public ViewModelMetaData<TMeta> AddMetaData<TMeta>(string name)
+        public HydraViewModelMetaData<TMeta> AddMetaData<TMeta>(string name)
         {
             return AddMetaData(name, default(TMeta));
         }
 
-        public ViewModelMetaData<TMeta> AddMetaData<TMeta>(string name, TMeta data)
+        public HydraViewModelMetaData<TMeta> AddMetaData<TMeta>(string name, TMeta data)
         {
-            var metadata = new ViewModelMetaData<TMeta>(name, data);
+            var metadata = new HydraViewModelMetaData<TMeta>(name, data);
             _metaData[name] = metadata;
             OnPropertyChanged(name);
             return metadata;
@@ -90,10 +99,10 @@ namespace NobelLaureates.HydraVM
             return GetMetaData<TMeta>(name) != null;
         }
 
-        public ViewModelMetaData<TMeta> GetMetaData<TMeta>(string name)
+        public HydraViewModelMetaData<TMeta> GetMetaData<TMeta>(string name)
         {
             object data;
-            return _metaData.TryGetValue(name, out data) ? data as ViewModelMetaData<TMeta> : null;
+            return _metaData.TryGetValue(name, out data) ? data as HydraViewModelMetaData<TMeta> : null;
         }
 
         public override string ToString()
