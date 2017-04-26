@@ -2,32 +2,39 @@
 using NobelLaureates.Ethereal.Messaging;
 using NobelLaureates.HydraVM;
 using NobelLaureates.Model;
-using NobelLaureates.Service;
+using NobelLaureates.Ether;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
 namespace NobelLaureates.ViewModel.DataPanel
 {
-    public class LoadDataController : HydraController
+    public class LoadDataController : IHydraBehaviour
     {
         private readonly IEther _ether;
-        private readonly DataPanelViewModel _viewModel;
-        private readonly List<NobelPrizeViewModel> _data = new List<NobelPrizeViewModel>();
+        private readonly NobelPrizeContainer _component;
+        private readonly List<NobelPrizeRowViewModel> _data = new List<NobelPrizeRowViewModel>();
+        private readonly SerialDisposable _disposable = new SerialDisposable();
 
-        public LoadDataController(IEther ether, DataPanelViewModel viewModel)
+        public LoadDataController(IEther ether, NobelPrizeContainer component)
         {
             _ether = ether;
-            _viewModel = viewModel;
+            _component = component;
         }
 
-        public async override void Start()
+        public async void Start()
         {
             var data = await _ether.ExecuteAsync(NobelEther.Actions.NobelPrizeData, None.Default);
             Load(data);
 
-            AddDisposable(_ether.Subscribe<string>(NobelEther.Messages.Search, s => Load(s)));
+            _disposable.Disposable = _ether.Subscribe<string>(NobelEther.Messages.Search, s => Load(s));
+        }
+
+        public void Stop()
+        {
+            _disposable.Disposable = null;
         }
 
         private void Load(NobelPrize[] data)
@@ -42,7 +49,7 @@ namespace NobelLaureates.ViewModel.DataPanel
         {
             // TBD. Search
 
-            var collection = _viewModel.Rows.Value;
+            var collection = _component.DataPanelViewModel.Rows.Value;
             collection.Clear();
 
             var filtered = string.IsNullOrEmpty(searchString) ?
@@ -51,9 +58,9 @@ namespace NobelLaureates.ViewModel.DataPanel
             filtered.ForEach(x => collection.Add(x));
         }
 
-        private NobelPrizeViewModel CreateRow(NobelPrize item)
+        private NobelPrizeRowViewModel CreateRow(NobelPrize item)
         {
-            var row = new NobelPrizeViewModel();
+            var row = new NobelPrizeRowViewModel();
             row.Year.Reset(item.Year);
             row.Category.Reset(item.Category);
             row.Prize.Reset(item.Prize);

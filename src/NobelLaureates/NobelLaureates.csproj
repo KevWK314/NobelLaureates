@@ -90,21 +90,18 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Service\NobelEther.cs" />
+    <Compile Include="ViewModel\NobelPrizeContainer.cs" />
+    <Compile Include="Ether\NobelEther.cs" />
     <Compile Include="Core\Service\File\CsvFileLoader.cs" />
     <Compile Include="Core\Service\File\ICsvFileLoader.cs" />
-    <Compile Include="Service\File\NobelPrizeEntry.cs" />
+    <Compile Include="Ether\File\NobelPrizeEntry.cs" />
     <Compile Include="Model\NobelPrize.cs" />
-    <Compile Include="Service\File\NobelFileDataMapperProfile.cs" />
-    <Compile Include="Service\File\NobelFileDataRegistrations.cs" />
-    <Compile Include="ViewModel\NobelPrizeViewModel.cs" />
+    <Compile Include="Ether\File\NobelFileDataMapperProfile.cs" />
+    <Compile Include="ViewModel\DataPanel\NobelPrizeRowViewModel.cs" />
     <Compile Include="ViewModel\DataPanel\DataPanelViewModel.cs" />
-    <Compile Include="ViewModel\DataPanel\DataPanelControllers.cs" />
     <Compile Include="ViewModel\DataPanel\LoadDataController.cs" />
     <Compile Include="ViewModel\SearchPanel\SearchController.cs" />
-    <Compile Include="ViewModel\SearchPanel\SearchPanelControllers.cs" />
     <Compile Include="ViewModel\SearchPanel\SearchPanelViewModel.cs" />
-    <Compile Include="ViewModel\ShellViewModel.cs" />
     <Compile Include="View\DataPanelView.xaml.cs">
       <DependentUpon>DataPanelView.xaml</DependentUpon>
     </Compile>

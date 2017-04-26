@@ -2,12 +2,12 @@
 using NobelLaureates.Core.Service.File;
 using NobelLaureates.Ethereal;
 using NobelLaureates.Model;
-using NobelLaureates.Service.File;
+using NobelLaureates.Ether.File;
 using System;
 using System.Linq;
 using System.Reactive.Linq;
 
-namespace NobelLaureates.Service
+namespace NobelLaureates.Ether
 {
     public class NobelEther : IEtherRegistrations
     {

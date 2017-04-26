@@ -9,9 +9,9 @@ namespace NobelLaureates.ViewModel.DataPanel
         public DataPanelViewModel()
             : base(typeof(DataPanelViewModel).ToString())
         {
-            Rows = CreateProperty("Rows", new ObservableCollection<NobelPrizeViewModel>());
+            Rows = CreateProperty("Rows", new ObservableCollection<NobelPrizeRowViewModel>());
         }
 
-        public HydraViewModelProperty<ObservableCollection<NobelPrizeViewModel>> Rows { get; private set; }
+        public HydraViewModelProperty<ObservableCollection<NobelPrizeRowViewModel>> Rows { get; private set; }
     }
 }

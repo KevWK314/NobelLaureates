@@ -1,6 +1,6 @@
 ﻿using FileHelpers;
 
-namespace NobelLaureates.Service.File
+namespace NobelLaureates.Ether.File
 {
     [DelimitedRecord(",")]
     [IgnoreFirst]

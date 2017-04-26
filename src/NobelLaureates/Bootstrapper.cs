@@ -1,22 +1,21 @@
 ﻿using System.Linq;
 using Ninject.Modules;
 using Ninject;
-using NobelLaureates.Service;
-using NobelLaureates.Service.File;
+using NobelLaureates.Ether;
+using NobelLaureates.Ether.File;
 using NobelLaureates.Ethereal;
 using AutoMapper;
-using NobelLaureates.ViewModel;
-using NobelLaureates.HydraVM;
 using NobelLaureates.ViewModel.DataPanel;
 using NobelLaureates.Core.Service.File;
 using NobelLaureates.ViewModel.SearchPanel;
+using NobelLaureates.ViewModel;
 
 namespace NobelLaureates
 {
     public class Bootstrapper : NinjectModule
     {
         private StandardKernel _kernel;
-        private HydraViewModelBag _shell;
+        private NobelPrizeContainer _rootContainer;
 
         public Bootstrapper()
         {
@@ -24,9 +23,9 @@ namespace NobelLaureates
             Start();
         }
 
-        public HydraViewModelBag Shell
+        public NobelPrizeContainer RootContainer
         {
-            get { return _shell; }
+            get { return _rootContainer; }
         }
 
         public override void Load()
@@ -41,31 +40,25 @@ namespace NobelLaureates
             var mapper = mapperConfig.CreateMapper();
             Bind<IMapper>().ToConstant(mapper);
 
-            Bind<IEther>().To<Ether>().InSingletonScope();
+            Bind<IEther>().To<Ethereal.Ether>().InSingletonScope();
             Bind<IEtherRegistrations>().To<NobelEther>().InSingletonScope();
 
-            Bind<ShellViewModel>().ToSelf().InSingletonScope();
-
-            Bind<DataPanelViewModel>().ToSelf().InSingletonScope();
-            Bind<DataPanelControllers>().ToSelf().InSingletonScope();
-
-            Bind<SearchPanelViewModel>().ToSelf().InSingletonScope();
-            Bind<SearchPanelControllers>().ToSelf().InSingletonScope();
+            Bind<NobelPrizeContainer>().ToSelf().InSingletonScope();
         }
 
         public void Start()
         {
-            // Register
+            // Register Ether
             var ether = _kernel.Get<IEther>();
             var regs = _kernel.GetAll<IEtherRegistrations>();
             regs.ToList().ForEach(r => r.Register(ether));
 
-            // Generate ViewModel
-            _shell = _kernel.Get<ShellViewModel>();
-
-            // Start Controllers
-            _kernel.Get<DataPanelControllers>().Start();
-            _kernel.Get<SearchPanelControllers>().Start();
+            // Generate ViewModels and start container
+            _rootContainer = _kernel.Get<NobelPrizeContainer>();
+            _rootContainer
+                .AddBehaviour(_kernel.Get<LoadDataController>())
+                .AddBehaviour(_kernel.Get<SearchController>());
+            _rootContainer.Start();
         }
     }
 }

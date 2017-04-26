@@ -3,7 +3,7 @@ using AutoMapper;
 using NobelLaureates.Model;
 using System.Globalization;
 
-namespace NobelLaureates.Service.File
+namespace NobelLaureates.Ether.File
 {
     public class NobelFileDataMapperProfile : Profile
     {

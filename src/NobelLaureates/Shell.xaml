@@ -9,7 +9,7 @@
         WindowState="Maximized"
         Title="Nobel Laureates" 
         Height="350" Width="525"
-        DataContext="{Binding Shell, Source={StaticResource bootstrapper}}">
+        DataContext="{Binding RootContainer, Source={StaticResource bootstrapper}}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />

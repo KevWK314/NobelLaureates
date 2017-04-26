@@ -1,12 +1,12 @@
 ﻿using NobelLaureates.HydraVM;
 using System;
 
-namespace NobelLaureates.ViewModel
+namespace NobelLaureates.ViewModel.DataPanel
 {
-    public class NobelPrizeViewModel : HydraViewModel
+    public class NobelPrizeRowViewModel : HydraViewModel
     {
-        public NobelPrizeViewModel()
-            : base(typeof(NobelPrizeViewModel).ToString())
+        public NobelPrizeRowViewModel()
+            : base(typeof(NobelPrizeRowViewModel).ToString())
         {
             Year = CreateProperty<int>("Year");
             Category = CreateProperty<string>("Category");
