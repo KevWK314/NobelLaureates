@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Windows.Media;
 
 namespace NobelLaureates.ViewModel.DataPanel
 {
@@ -47,8 +48,6 @@ namespace NobelLaureates.ViewModel.DataPanel
 
         private void Load(string searchString)
         {
-            // TBD. Search
-
             var collection = _component.DataPanelViewModel.Rows.Value;
             collection.Clear();
 
@@ -73,6 +72,7 @@ namespace NobelLaureates.ViewModel.DataPanel
             row.BirthCity.Reset(item.BirthCity);
             row.BirthCountry.Reset(item.BirthCountry);
             row.Gender.Reset(item.Gender);
+            row.Gender.GetMetaData<Brush>(NobelPrizeRowViewModel.MetaData.GenderColour)?.SetData(GetGenderBrush(item.Gender));
             row.OrganisationName.Reset(item.OrganisationName);
             row.OrganisationCity.Reset(item.OrganisationCity);
             row.OrganisationCountry.Reset(item.OrganisationCountry);
@@ -81,6 +81,17 @@ namespace NobelLaureates.ViewModel.DataPanel
             row.DeathCountry.Reset(item.DeathCountry);
 
             return row;
+        }
+
+        // Could be in it's own class and unit tested
+        public static Brush GetGenderBrush(string gender)
+        {
+            switch (gender)
+            {
+                case "Male": return Brushes.AliceBlue;
+                case "Female": return Brushes.LightPink;
+            }
+            return null;
         }
     }
 }

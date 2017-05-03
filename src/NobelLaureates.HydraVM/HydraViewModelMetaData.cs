@@ -27,5 +27,10 @@ namespace NobelLaureates.HydraVM
                 SetField(ref _data, value);
             }
         }
+
+        public void SetData(T data)
+        {
+            Data = data;
+        }
     }
 }

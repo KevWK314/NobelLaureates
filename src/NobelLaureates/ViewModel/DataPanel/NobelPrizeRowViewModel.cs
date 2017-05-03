@@ -1,10 +1,16 @@
 ﻿using NobelLaureates.HydraVM;
 using System;
+using System.Windows.Media;
 
 namespace NobelLaureates.ViewModel.DataPanel
 {
     public class NobelPrizeRowViewModel : HydraViewModel
     {
+        public static class MetaData
+        {
+            public const string GenderColour = "GenderColour";
+        }
+
         public NobelPrizeRowViewModel()
             : base(typeof(NobelPrizeRowViewModel).ToString())
         {
@@ -19,7 +25,8 @@ namespace NobelLaureates.ViewModel.DataPanel
             BirthDate = CreateProperty<DateTime?>("BirthDate");
             BirthCity = CreateProperty<string>("BirthCity");
             BirthCountry = CreateProperty<string>("BirthCountry");
-            Gender = CreateProperty<string>("Gender");
+            Gender = CreateProperty<string>("Gender")
+                .Initialise(x => x.AddMetaData<Brush>(MetaData.GenderColour));
             OrganisationName = CreateProperty<string>("OrganisationName");
             OrganisationCity = CreateProperty<string>("OrganisationCity");
             OrganisationCountry = CreateProperty<string>("OrganisationCountry");

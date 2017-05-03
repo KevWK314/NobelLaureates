@@ -90,7 +90,7 @@ namespace NobelLaureates.HydraVM
         {
             var metadata = new HydraViewModelMetaData<TMeta>(name, data);
             _metaData[name] = metadata;
-            OnPropertyChanged(name);
+            OnPropertyChanged($"Item[name]");
             return metadata;
         }
 

@@ -1,38 +1,152 @@
 ﻿<UserControl x:Class="NobelLaureates.View.DataPanelView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:NobelLaureates.View"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-
+             xmlns:local="clr-namespace:NobelLaureates.View">
 
     <DataGrid ItemsSource="{Binding Rows.Value}"
               GridLinesVisibility="Horizontal"
               AutoGenerateColumns="False"
               MaxColumnWidth="250"
+              RowHeight="30"
               HorizontalGridLinesBrush="LightGray">
+        <DataGrid.Resources>
+            <Style x:Key="TextStyle" TargetType="TextBlock">
+                <Setter Property="Margin" Value="4,0" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+        </DataGrid.Resources>
         <DataGrid.Columns>
-            <DataGridTextColumn Header="Year" Binding="{Binding Year}" />
-            <DataGridTextColumn Header="Category" Binding="{Binding Category}" />
-            <DataGridTextColumn Header="FullName" Binding="{Binding FullName}" />
-            <DataGridTextColumn Header="LaureateType" Binding="{Binding LaureateType}" />
-            <DataGridTextColumn Header="LaureateId" Binding="{Binding LaureateId}" />
-            <DataGridTextColumn Header="Gender" Binding="{Binding Gender}"  />
-            <DataGridTextColumn Header="Prize" Binding="{Binding Prize}" />
-            <DataGridTextColumn Header="PrizeShare" Binding="{Binding PrizeShare}" />
-            <DataGridTextColumn Header="Motivation" Binding="{Binding Motivation}" />
-            <DataGridTextColumn Header="BirthDate" Binding="{Binding BirthDate}" />
-            <DataGridTextColumn Header="BirthCity" Binding="{Binding BirthCity}" />
-            <DataGridTextColumn Header="BirthCountry" Binding="{Binding BirthCountry}" />
-            <DataGridTextColumn Header="OrganisationName" Binding="{Binding OrganisationName}" />
-            <DataGridTextColumn Header="OrganisationCity" Binding="{Binding OrganisationCity}" />
-            <DataGridTextColumn Header="OrganisationCountry" Binding="{Binding OrganisationCountry}" />
-            <DataGridTextColumn Header="DeathDate" Binding="{Binding DeathDate}" />
-            <DataGridTextColumn Header="DeathCity" Binding="{Binding DeathCity}" />
-            <DataGridTextColumn Header="DeathCountry" Binding="{Binding DeathCountry}" />
+            <DataGridTemplateColumn Header="Year" >
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Year}" Style="{StaticResource TextStyle}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn Header="Category" >
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Category}" Style="{StaticResource TextStyle}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn Header="FullName" >
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding FullName}" Style="{StaticResource TextStyle}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn Header="LaureateType" >
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding LaureateType}" Style="{StaticResource TextStyle}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn Header="LaureateId" >
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding LaureateId}" Style="{StaticResource TextStyle}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn Header="Gender" >
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Gender}" Style="{StaticResource TextStyle}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+                <DataGridTemplateColumn.CellStyle>
+                    <Style TargetType="{x:Type DataGridCell}">
+                        <Setter Property="Background" Value="{Binding Gender[GenderColour].Data}" />
+                    </Style>
+                </DataGridTemplateColumn.CellStyle>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn Header="Prize" >
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Prize}" Style="{StaticResource TextStyle}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn Header="PrizeShare" >
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding PrizeShare}" Style="{StaticResource TextStyle}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn Header="Motivation" >
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Motivation}" Style="{StaticResource TextStyle}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn Header="BirthDate" >
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding BirthDate}" Style="{StaticResource TextStyle}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn Header="BirthCity" >
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding BirthCity}" Style="{StaticResource TextStyle}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn Header="BirthCountry" >
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding BirthCountry}" Style="{StaticResource TextStyle}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn Header="OrganisationName" >
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding OrganisationName}" Style="{StaticResource TextStyle}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn Header="OrganisationCity" >
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding OrganisationCity}" Style="{StaticResource TextStyle}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn Header="OrganisationCountry" >
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding OrganisationCountry}" Style="{StaticResource TextStyle}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn Header="DeathDate" >
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding DeathDate}" Style="{StaticResource TextStyle}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn Header="DeathCity" >
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding DeathCity}" Style="{StaticResource TextStyle}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn Header="DeathCountry" >
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding DeathCountry}" Style="{StaticResource TextStyle}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
         </DataGrid.Columns>
     </DataGrid>
-
 </UserControl>
