@@ -53,7 +53,8 @@ namespace NobelLaureates.ViewModel.DataPanel
 
             var filtered = string.IsNullOrEmpty(searchString) ?
                 _data :
-                _data.Where(x => x.Category.Value.IndexOf(searchString, StringComparison.InvariantCultureIgnoreCase) > -1).ToList();
+                _data.Where(x => x.GetAllProperties().Any(p => p.ToString()?.IndexOf(searchString, StringComparison.InvariantCultureIgnoreCase) > -1))
+                    .ToList();
             filtered.ForEach(x => collection.Add(x));
         }
 

@@ -3,19 +3,32 @@ using System.Collections.Generic;
 
 namespace NobelLaureates.HydraVM
 {
-    public class HydraViewModelProperty<T> : PropertyChangedBase
+    public abstract class HydraViewModelProperty : PropertyChangedBase
+    {
+        protected internal HydraViewModelProperty(string name)
+        {
+            Name = name;
+        }
+
+        public string Name { get; private set; }
+
+        public abstract string FormattedValue { get; }
+    }
+
+    public class HydraViewModelProperty<T> : HydraViewModelProperty
     {
         private Func<T> _valueGetter;
         private T _originalValue;
         private T _currentValue;
         private bool _hasChanges;
+        private Func<T, string> _valueFormatter =
+            value => value != null ? value.ToString() : null;
 
         private readonly Dictionary<string, object> _metaData = new Dictionary<string, object>();
 
         internal HydraViewModelProperty(string name)
             : this(name, () => default(T))
         {
-            Name = name;
         }
 
         internal HydraViewModelProperty(string name, T defaultValue)
@@ -24,12 +37,10 @@ namespace NobelLaureates.HydraVM
         }
 
         internal HydraViewModelProperty(string name, Func<T> defaultValueGetter)
+            : base(name)
         {
-            Name = name;
             Reset(defaultValueGetter);
         }
-
-        public string Name { get; private set; }
 
         public bool HasChanges
         {
@@ -51,6 +62,11 @@ namespace NobelLaureates.HydraVM
                     HasChanges = !EqualityComparer<T>.Default.Equals(_originalValue, value);
                 }
             }
+        }
+
+        public override string FormattedValue
+        {
+            get { return _valueFormatter(Value); }
         }
 
         public object this[string metaDataName]
@@ -81,6 +97,13 @@ namespace NobelLaureates.HydraVM
             SetField(ref _hasChanges, false, this.PropertyName(x => x.HasChanges));
         }
 
+        internal void FormatValue(Func<T, string> valueFormatter)
+        {
+            if (valueFormatter == null) throw new ArgumentNullException(nameof(valueFormatter));
+
+            _valueFormatter = valueFormatter;
+        }
+
         public HydraViewModelMetaData<TMeta> AddMetaData<TMeta>(string name)
         {
             return AddMetaData(name, default(TMeta));
@@ -107,7 +130,7 @@ namespace NobelLaureates.HydraVM
 
         public override string ToString()
         {
-            return Value != null ? Value.ToString() : null;
+            return FormattedValue;
         }
 
         public override bool Equals(object obj)
@@ -128,7 +151,7 @@ namespace NobelLaureates.HydraVM
 
         public override int GetHashCode()
         {
-            return Value == null ? 0 : Value.GetHashCode();
+            return Value == null ? 0 : Name.GetHashCode() & Value.GetHashCode();
         }
     }
 }

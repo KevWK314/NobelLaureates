@@ -21,6 +21,11 @@ namespace NobelLaureates.HydraVM
             return valueStream;
         }
 
+        public static HydraViewModelProperty<T> WithValueFormatter<T>(this HydraViewModelProperty<T> viewModelProperty, Func<T, string> valueFormatter)
+        {
+            viewModelProperty.FormatValue(valueFormatter);
 
+            return viewModelProperty;
+        }
     }
 }

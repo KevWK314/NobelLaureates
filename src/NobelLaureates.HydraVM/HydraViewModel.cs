@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NobelLaureates.HydraVM
 {
     public abstract class HydraViewModel : PropertyChangedBase
     {
-        private readonly ConcurrentDictionary<string, object> _properties = new ConcurrentDictionary<string, object>();
+        private readonly ConcurrentDictionary<string, HydraViewModelProperty> _properties = new ConcurrentDictionary<string, HydraViewModelProperty>();
 
         protected HydraViewModel(string name)
         {
@@ -18,7 +21,7 @@ namespace NobelLaureates.HydraVM
         {
             get
             {
-                object property;
+                HydraViewModelProperty property;
                 return _properties.TryGetValue(name, out property) ? property : null;
             }
         }
@@ -46,8 +49,13 @@ namespace NobelLaureates.HydraVM
 
         public HydraViewModelProperty<T> GetProperty<T>(string name)
         {
-            object property;
+            HydraViewModelProperty property;
             return _properties.TryGetValue(name, out property) ? property as HydraViewModelProperty<T> : null;
+        }
+
+        public IEnumerable<HydraViewModelProperty> GetAllProperties()
+        {
+            return _properties.Values.ToArray();
         }
 
         private void AddProperty<T>(HydraViewModelProperty<T> property)
