@@ -1,11 +1,12 @@
 ﻿using NobelLaureates.HydraVM;
 using System;
-using System.Windows.Media;
 
 namespace NobelLaureates.ViewModel.DataPanel
 {
     public class NobelPrizeRowViewModel : HydraViewModel
     {
+        private const string DateFormat = "dd MMM yyyy";
+
         public static class MetaData
         {
             public const string GenderColour = "GenderColour";
@@ -25,14 +26,16 @@ namespace NobelLaureates.ViewModel.DataPanel
             BirthDate = CreateProperty<DateTime?>("BirthDate");
             BirthCity = CreateProperty<string>("BirthCity");
             BirthCountry = CreateProperty<string>("BirthCountry");
-            Gender = CreateProperty<string>("Gender")
-                .Initialise(x => x.AddMetaData<Brush>(MetaData.GenderColour));
+            Gender = CreateProperty<string>("Gender");
             OrganisationName = CreateProperty<string>("OrganisationName");
             OrganisationCity = CreateProperty<string>("OrganisationCity");
             OrganisationCountry = CreateProperty<string>("OrganisationCountry");
             DeathDate = CreateProperty<DateTime?>("DeathDate");
             DeathCity = CreateProperty<string>("DeathCity");
             DeathCountry = CreateProperty<string>("DeathCountry");
+
+            BirthDate.WithValueFormatter(x => x.HasValue ? x.Value.ToString(DateFormat) : null);
+            DeathDate.WithValueFormatter(x => x.HasValue ? x.Value.ToString(DateFormat) : null);
         }
 
         public HydraViewModelProperty<int> Year { get; private set; }

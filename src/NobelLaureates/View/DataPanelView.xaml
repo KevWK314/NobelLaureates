@@ -59,7 +59,7 @@
                 </DataGridTemplateColumn.CellTemplate>
                 <DataGridTemplateColumn.CellStyle>
                     <Style TargetType="{x:Type DataGridCell}">
-                        <Setter Property="Background" Value="{Binding Gender[GenderColour].Data}" />
+                        <Setter Property="Background" Value="{Binding Gender[BackgroundBrush]}" />
                     </Style>
                 </DataGridTemplateColumn.CellStyle>
             </DataGridTemplateColumn>

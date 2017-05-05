@@ -1,11 +1,13 @@
 ﻿using System;
-using System.Reactive.Disposables;
+using System.Collections.Concurrent;
+using System.Linq;
+using System.Threading;
 
 namespace NobelLaureates.HydraVM
 {
     public abstract class Controller : IDisposable
     {
-        private CompositeDisposable _disposables = new CompositeDisposable();
+        private ConcurrentBag<IDisposable> _disposables = new ConcurrentBag<IDisposable>();
 
         public abstract void Start();
 
@@ -16,7 +18,9 @@ namespace NobelLaureates.HydraVM
 
         public void Dispose()
         {
-            _disposables.Dispose();
+            var disposables = _disposables;
+            Interlocked.Exchange(ref _disposables, new ConcurrentBag<IDisposable>());
+            disposables.ToList().ForEach(x => x.Dispose());
         }
     }
 }

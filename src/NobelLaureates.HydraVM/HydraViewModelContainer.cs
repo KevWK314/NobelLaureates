@@ -10,21 +10,31 @@ namespace NobelLaureates.HydraVM
 
         public virtual void Start()
         {
-            var behaviours = _behaviours.ToList();
-            behaviours.ForEach(b => b.Start());
+            lock (_behaviours)
+            {
+                var behaviours = _behaviours.ToList();
+                behaviours.ForEach(b => b.Start());
+            }
         }
 
         public virtual void Stop()
         {
-            var behaviours = _behaviours.ToList();
-            behaviours.ForEach(b => b.Start());
+            lock (_behaviours)
+            {
+                var behaviours = _behaviours.ToList();
+                behaviours.ForEach(b => b.Start());
+
+            }
         }
 
         public HydraViewModelContainer AddBehaviour(IHydraBehaviour behaviour)
         {
             if (behaviour == null) throw new ArgumentNullException(nameof(behaviour));
 
-            _behaviours.Add(behaviour);
+            lock (_behaviours)
+            {
+                _behaviours.Add(behaviour);
+            }
             return this;
         }
 
@@ -32,7 +42,10 @@ namespace NobelLaureates.HydraVM
         {
             if (behaviours == null) throw new ArgumentNullException(nameof(behaviours));
 
-            _behaviours.AddRange(behaviours);
+            lock (_behaviours)
+            {
+                _behaviours.AddRange(behaviours);
+            }
             return this;
         }
     }

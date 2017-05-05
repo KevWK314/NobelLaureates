@@ -11,6 +11,7 @@ namespace NobelLaureates.HydraVM
         public DisposableAction(Action disposableAction)
         {
             if (disposableAction == null) throw new ArgumentNullException(nameof(disposableAction));
+
             _disposableAction = disposableAction;
         }
 

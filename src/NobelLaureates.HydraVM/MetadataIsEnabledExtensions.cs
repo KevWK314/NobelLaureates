@@ -1,41 +1,32 @@
-﻿using System;
-
-namespace NobelLaureates.HydraVM
+﻿namespace NobelLaureates.HydraVM
 {
+    /// <summary>
+    /// This is just an example of a re-usable approach to metadata
+    /// </summary>
     public static class MetadataIsEnabledExtensions
     {
-        private static readonly string IsEnabled = "IsEnabled";
-
-        public static HydraViewModelProperty<T> WithIsEnabled<T>(this HydraViewModelProperty<T> property, bool data)
-        {
-            property.AddMetaData<bool>(IsEnabled, data);
-            return property;
-        }
+        private static readonly MetaDataKey<bool> IsEnabled = new MetaDataKey<bool>("IsEnabled");
 
         public static HydraViewModelProperty<T> WithIsEnabled<T>(this HydraViewModelProperty<T> property)
         {
-            property.AddMetaData<bool>(IsEnabled);
+            property.SetMetaData(IsEnabled);
+            return property;
+        }
+
+        public static HydraViewModelProperty<T> WithIsEnabled<T>(this HydraViewModelProperty<T> property, bool data)
+        {
+            property.SetMetaData(IsEnabled, data);
             return property;
         }
 
         public static bool GetIsEnabled<T>(this HydraViewModelProperty<T> property)
         {
-            var meta = property.GetMetaData<bool>(IsEnabled);
-            if(meta == null)
-            {
-                throw new InvalidOperationException("IsEnabled metadata not found");
-            }
-            return meta.Data;
+            return property.GetMetaData(IsEnabled);
         }
 
         public static void SetIsEnabled<T>(this HydraViewModelProperty<T> property, bool value)
         {
-            var meta = property.GetMetaData<bool>(IsEnabled);
-            if (meta == null)
-            {
-                throw new InvalidOperationException("IsEnabled metadata not found");
-            }
-            meta.Data = value;
+            property.SetMetaData(IsEnabled, value);
         }
     }
 }

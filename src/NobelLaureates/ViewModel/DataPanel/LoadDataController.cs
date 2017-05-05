@@ -9,6 +9,7 @@ using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Windows.Media;
+using NobelLaureates.Core.ViewModel;
 
 namespace NobelLaureates.ViewModel.DataPanel
 {
@@ -73,7 +74,7 @@ namespace NobelLaureates.ViewModel.DataPanel
             row.BirthCity.Reset(item.BirthCity);
             row.BirthCountry.Reset(item.BirthCountry);
             row.Gender.Reset(item.Gender);
-            row.Gender.GetMetaData<Brush>(NobelPrizeRowViewModel.MetaData.GenderColour)?.SetData(GetGenderBrush(item.Gender));
+            row.Gender.SetMetaData(SharedMetaData.BackgroundBrush, GetGenderBrush(item.Gender));
             row.OrganisationName.Reset(item.OrganisationName);
             row.OrganisationCity.Reset(item.OrganisationCity);
             row.OrganisationCountry.Reset(item.OrganisationCountry);

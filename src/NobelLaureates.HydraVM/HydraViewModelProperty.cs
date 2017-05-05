@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NobelLaureates.HydraVM
 {
@@ -24,7 +25,8 @@ namespace NobelLaureates.HydraVM
         private Func<T, string> _valueFormatter =
             value => value != null ? value.ToString() : null;
 
-        private readonly Dictionary<string, object> _metaData = new Dictionary<string, object>();
+        private readonly Dictionary<MetaDataKey, object> _metaData = new Dictionary<MetaDataKey, object>();
+        private readonly Dictionary<string, MetaDataKey> _metaDataLookup = new Dictionary<string, MetaDataKey>();
 
         internal HydraViewModelProperty(string name)
             : this(name, () => default(T))
@@ -73,8 +75,13 @@ namespace NobelLaureates.HydraVM
         {
             get
             {
-                object metaData;
-                return _metaData.TryGetValue(metaDataName, out metaData) ? metaData : null;
+                MetaDataKey key;
+                if (_metaDataLookup.TryGetValue(metaDataName, out key))
+                {
+                    object value;
+                    return _metaData.TryGetValue(key, out value) ? value : null;
+                }
+                return null;
             }
         }
 
@@ -104,28 +111,35 @@ namespace NobelLaureates.HydraVM
             _valueFormatter = valueFormatter;
         }
 
-        public HydraViewModelMetaData<TMeta> AddMetaData<TMeta>(string name)
+        public void SetMetaData<TMeta>(MetaDataKey<TMeta> key)
         {
-            return AddMetaData(name, default(TMeta));
+            if (key == null) throw new ArgumentNullException(nameof(key));
+
+            SetMetaData(key, default(TMeta));
         }
 
-        public HydraViewModelMetaData<TMeta> AddMetaData<TMeta>(string name, TMeta data)
+        public void SetMetaData<TMeta>(MetaDataKey<TMeta> key, TMeta data)
         {
-            var metadata = new HydraViewModelMetaData<TMeta>(name, data);
-            _metaData[name] = metadata;
-            OnPropertyChanged($"Item[name]");
-            return metadata;
+            if (key == null) throw new ArgumentNullException(nameof(key));
+
+            _metaData[key] = data;
+            _metaDataLookup[key.Name] = key;
+            OnPropertyChanged($"Item[{key.Name}]");
         }
 
-        public bool HasMetaData<TMeta>(string name)
+        public bool HasMetaData<TMeta>(MetaDataKey<TMeta> key)
         {
-            return GetMetaData<TMeta>(name) != null;
+            if (key == null) throw new ArgumentNullException(nameof(key));
+
+            return _metaData.ContainsKey(key);
         }
 
-        public HydraViewModelMetaData<TMeta> GetMetaData<TMeta>(string name)
+        public TMeta GetMetaData<TMeta>(MetaDataKey<TMeta> key)
         {
+            if (key == null) throw new ArgumentNullException(nameof(key));
+
             object data;
-            return _metaData.TryGetValue(name, out data) ? data as HydraViewModelMetaData<TMeta> : null;
+            return _metaData.TryGetValue(key, out data) ? (TMeta)data : default(TMeta);
         }
 
         public override string ToString()
@@ -146,7 +160,7 @@ namespace NobelLaureates.HydraVM
                 return true;
             }
 
-            return EqualityComparer<T>.Default.Equals(Value, other.Value);
+            return Name == other.Name && EqualityComparer<T>.Default.Equals(Value, other.Value);
         }
 
         public override int GetHashCode()

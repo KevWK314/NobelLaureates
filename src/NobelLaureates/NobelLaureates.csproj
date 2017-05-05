@@ -90,6 +90,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Core\ViewModel\SharedMetaData.cs" />
     <Compile Include="ViewModel\NobelPrizeContainer.cs" />
     <Compile Include="Ether\NobelEther.cs" />
     <Compile Include="Core\Service\File\CsvFileLoader.cs" />

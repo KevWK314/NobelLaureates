@@ -1,13 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Linq;
+using System.Threading;
 
 namespace NobelLaureates.HydraVM
 {
     internal class HydraObservable<T> : IObservable<T>, IObserver<T>
     {
         private IObserver<T> _observer;
-        private List<IDisposable> _disposables = new List<IDisposable>();
+        private ConcurrentBag<IDisposable> _disposables = new ConcurrentBag<IDisposable>();
 
         public IDisposable Subscribe(IObserver<T> observer)
         {
@@ -40,9 +41,9 @@ namespace NobelLaureates.HydraVM
         {
             _observer = null;
 
-            var disposables = _disposables.ToList();
-            _disposables.Clear();
-            disposables.ForEach(x => x.Dispose());
+            var disposables = _disposables;
+            Interlocked.Exchange(ref _disposables, new ConcurrentBag<IDisposable>());
+            disposables.ToList().ForEach(x => x.Dispose());
         }
     }
 }
